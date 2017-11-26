@@ -12,6 +12,9 @@
     "ethereumjs-testrpc": "^6.0.3",
     "express": "~4.15.5",
     "jade": "~1.11.0",
+    "mongoose": "^4.13.5",
+    "mongoose-paginate": "^5.0.3",
+    "mongoose-timestamp": "^0.6.0",
     "morgan": "~1.9.0",
     "serve-favicon": "~2.4.5",
     "web3": "^0.20.2"

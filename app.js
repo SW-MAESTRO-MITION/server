@@ -5,9 +5,17 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var user = require('./api/v1/user/user');
 var contract = require('./api/v1/contract/contract');
 
 var app = express();
+var mongoose = require('mongoose');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+    console.log('connect successfully');
+});
+mongoose.connect('mongodb://localhost/mongodb_tutorial', { useMongoClient: true });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,6 +29,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/user', user);
 app.use('/contract', contract);
 
 // catch 404 and forward to error handler
