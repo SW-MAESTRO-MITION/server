@@ -5,7 +5,7 @@ exports.validatePassword = function(req, res, next) {
   if(!password || password.length < 3) {
     return res.status(400).json({code : -1,
                   message: 'password is something wrong!'});
-  }else{
+  } else{
       return next();
   }
 }
