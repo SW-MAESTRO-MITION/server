@@ -1,7 +1,6 @@
 var Web3 = require("web3");
 var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
-
 var contractAddress = "0x830c75568f71cebdc00ce7f9c3b54508877f54cf";
 var contractInfo = require("../../../../smart_contract/build/contracts/Contract.json");
 var contractABI = contractInfo["abi"];
@@ -9,7 +8,9 @@ var contractABI = contractInfo["abi"];
 var contractObject = web3.eth.contract(contractABI);
 var contractInstance = contractObject.at(contractAddress);
 
-exports.addContract = function (req, res) {
+var file = require("../file/file.controller");
+
+function addContract(req, res) {
   //var user_addr = req.body.address;
   var date = req.body.date;
   var hash = req.body.hash;
@@ -31,7 +32,7 @@ exports.addContract = function (req, res) {
   }
 };
 
-exports.findContract = function (req, res) {
+function findContract(req, res) {
   var hash = req.params.hash;
   var data = contractInstance.getFile(hash);
   if(data) {
@@ -40,4 +41,11 @@ exports.findContract = function (req, res) {
   else {
     res.status(200).json("No contract data found");
   }
+}
+
+
+
+module.exports = {
+  addContract,
+  findContract
 }

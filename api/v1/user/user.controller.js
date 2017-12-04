@@ -9,7 +9,7 @@ var createEOA = function () {
   return address;
 }
 
-exports.createUser = function (req, res) {
+function createUser(req, res) {
     var user = new User();
     user.name = req.body.name;
     user.email = req.body.email;
@@ -22,9 +22,9 @@ exports.createUser = function (req, res) {
         }
         res.status(200).json(createdUser);
     });
-};
+}
 
-exports.getUser = function (req, res) {
+function getUser(req, res) {
     User.findOne({"_id": req.params.id}, (err, user) => {
         if (err) {
             res.status(500).json(err);
@@ -36,9 +36,9 @@ exports.getUser = function (req, res) {
             res.status(200).json("No user found");
         }
     });
-};
+}
 
-exports.modifyUser = function (req, res) {
+function modifyUser(req, res) {
     User.findById(req.params.id, (err, user) => {
         // Handle any possible database errors
         if (err) {
@@ -60,9 +60,9 @@ exports.modifyUser = function (req, res) {
             });
         }
     });
-};
+}
 
-exports.deleteUser = function (req, res) {
+function deleteUser(req, res) {
     User.findByIdAndRemove(req.params.id, (err, user) => {
         if (err) {
             res.status(500).send(err)
@@ -74,4 +74,11 @@ exports.deleteUser = function (req, res) {
         };
         res.status(200).json(response);
     });
-};
+}
+
+module.exports = {
+  createUser,
+  getUser,
+  modifyUser,
+  deleteUser
+}
