@@ -13,7 +13,6 @@ var _storage = multer.diskStorage({
 });
 
 var upload = multer({ storage: _storage });
-
 router.post('/upload', upload.single('contract_file'), file.uploadFile);
 router.get('/upload', upload.single('contract_file'), file.getFile);
 
