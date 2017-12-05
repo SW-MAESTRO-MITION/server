@@ -13,7 +13,12 @@ function uploadFile(req, res) {
     })
     .on('end', function () {
   	  var hash_value = hash.digest('hex');
-      res.status(200).json(hash_value);
+      var file_info = {
+        file_name: req.file.originalname,
+        file_size: req.file.size,
+        file_hash: hash_value
+      }
+      res.status(200).json(file_info);
     });
 }
 
