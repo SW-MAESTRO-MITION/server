@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var user = require('./api/v1/user/user');
 var contract = require('./api/v1/contract/contract');
 var file = require('./api/v1/file/file');
+var mailing = require('./api/v1/mailing/mailing');
 
 var app = express();
 var mongoose = require('mongoose');
@@ -31,7 +32,7 @@ app.use('/user', user);
 app.use('/contract', contract);
 app.use('/file', file);
 app.use('/file_content', express.static(path.join(__dirname, 'uploads')));
-
+app.use('/mailing', mailing);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
