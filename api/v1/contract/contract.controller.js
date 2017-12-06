@@ -43,8 +43,6 @@ function findContract(req, res) {
   }
 }
 
-
-
 module.exports = {
   addContract,
   findContract

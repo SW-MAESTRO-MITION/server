@@ -1,0 +1,21 @@
+{
+  "sender": {
+    "type": "string",
+    "required": true
+  },
+
+  "recipient": {
+    "type": "string",
+    "required": true
+  },
+
+  "path": {
+    "type": "string",
+    "required": true
+  },
+
+  "is_registered": {
+    "type": "boolean",
+    "required": true
+  }
+}

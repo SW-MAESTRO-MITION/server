@@ -14,7 +14,7 @@ function createUser(req, res) {
     user.name = req.body.name;
     user.email = req.body.email;
     user.password = req.body.password;
-    user.address = createEOA();
+    // user.address = createEOA();
 
     user.save((err, createdUser) => {
         if (err) {
