@@ -1,10 +1,5 @@
 {
-  "sender": {
-    "type": "string",
-    "required": true
-  },
-
-  "recipient": {
+  "email": {
     "type": "string",
     "required": true
   },

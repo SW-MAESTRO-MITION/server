@@ -3,6 +3,7 @@
  */
 
 var Transaction = require('../../../models/transaction');
+var RegisteredTransaction = require('../../../models/registeredTransaction');
 var User = require('../../../models/user');
 
 function createTransaction(req, res) {
@@ -19,7 +20,7 @@ function createTransaction(req, res) {
             res.status(500).json(err);
         }
 
-        User.findOne({"_id": req.body.sender}, (err, sender) => {
+        User.findOne({"email": req.body.sender}, (err, sender) => {
             if (err) {
                 res.status(500).json(err);
             }
@@ -31,7 +32,7 @@ function createTransaction(req, res) {
             }
         });
 
-        User.findOne({"_id": req.body.recipient}, (err, recipient) => {
+        User.findOne({"email": req.body.recipient}, (err, recipient) => {
             if (err) {
                 res.status(500).json(err);
             }
@@ -50,15 +51,14 @@ function createTransaction(req, res) {
 
 function getSenderTransaction(req, res) {
     var tx_id = req.params.id;
-    console.log(tx_id);
     Transaction.findOne({"_id": tx_id}, (err, tx) => {
         if (err) {
             res.status(500).json(err);
         }
 
-        if (tx) {  // Search could come back empty, so we should protect against sending nothing back
+        if (tx) {
             res.status(200).json(tx);
-        } else {  // In case no kitten was found with the given query
+        } else {
             res.status(200).json("No user found");
         }
     });
@@ -78,6 +78,13 @@ function getRecipientTransaction(req, res) {
     });
 }
 
+/**
+ * 수락 버튼 눌렀을 때 API
+ *
+ * sender, recipient 유저의 tx_id를 null로 만든다.
+ *
+ */
+
 function acceptTransaction(req, res) {
     var tx_id = req.params.id;
     Transaction.findOne({"_id": tx_id}, (err, tx) => {
@@ -85,7 +92,7 @@ function acceptTransaction(req, res) {
             res.status(500).json(err);
         }
 
-        User.findOne({"sender": tx.sender}, (err, sender) => {
+        User.findOne({"email": tx.sender}, (err, sender) => {
             if (err) {
                 res.status(500).json(err);
             }
@@ -98,7 +105,7 @@ function acceptTransaction(req, res) {
             }
         });
 
-        User.findOne({"_id": tx.recipient}, (err, recipient) => {
+        User.findOne({"email": tx.recipient}, (err, recipient) => {
             if (err) {
                 res.status(500).json(err);
             }
@@ -110,6 +117,25 @@ function acceptTransaction(req, res) {
                 });
             }
         });
+
+        var registeredTransactionForSender = new RegisteredTransaction();
+        registeredTransactionForSender.email = tx.sender;
+        registeredTransactionForSender.path = tx.path;
+        registeredTransactionForSender.save((err, registeredTransactionForSender) => {
+            if (err) {
+                res.status(500).json(err);
+            }
+        });
+
+        var registeredTransactionForRecipient = new RegisteredTransaction();
+        registeredTransactionForRecipient.email = tx.recipient;
+        registeredTransactionForRecipient.path = tx.path;
+        registeredTransactionForRecipient.save((err, registeredTransactionForRecipient) => {
+            if (err) {
+                res.status(500).json(err);
+            }
+        });
+        res.status(200).json();
     });
 }
 
