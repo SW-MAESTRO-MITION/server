@@ -14,7 +14,6 @@ function createUser(req, res) {
     user.name = req.body.name;
     user.email = req.body.email;
     user.password = req.body.password;
-    // user.address = createEOA();
 
     user.save((err, createdUser) => {
         if (err) {
@@ -64,10 +63,10 @@ function modifyUser(req, res) {
         } else {
             // Update each attribute with any possible attribute that may have been submitted in the body of the request
             // If that attribute isn't in the request body, default back to whatever it was before.
-
             user.name = req.body.name || user.name;
             user.email = req.body.email || user.email;
             user.password = req.body.password || user.password;
+            user.is_checked_registered_contract = req.body.is_checked_registered_contract || user.is_checked_registered_contract;
 
             // Save the updated document back to the database
             user.save((err, modifiedUser) => {

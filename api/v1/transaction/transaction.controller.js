@@ -101,42 +101,44 @@ function acceptTransaction(req, res) {
             if (sender) {
                 sender.transaction_id = null;
                 sender.type_of_party = null;
+                sender.is_checked_registered_contract = false;
                 sender.save((err, modifiedUser) => {
+
+                    User.findOne({"email": tx.recipient}, (err, recipient) => {
+                        if (err) {
+                            res.status(500).json(err);
+                        }
+
+                        if (recipient) {
+                            recipient.transaction_id = null;
+                            recipient.type_of_party = null;
+                            recipient.is_checked_registered_contract = false;
+                            recipient.save((err, modifiedUser) => {
+
+                                var registeredTransactionForSender = new RegisteredTransaction();
+                                registeredTransactionForSender.email = tx.sender;
+                                registeredTransactionForSender.path = tx.path;
+                                registeredTransactionForSender.save((err, registeredTransactionForSender) => {
+                                    if (err) {
+                                        res.status(500).json(err);
+                                    }
+
+                                    var registeredTransactionForRecipient = new RegisteredTransaction();
+                                    registeredTransactionForRecipient.email = tx.recipient;
+                                    registeredTransactionForRecipient.path = tx.path;
+                                    registeredTransactionForRecipient.save((err, registeredTransactionForRecipient) => {
+                                        if (err) {
+                                            res.status(500).json(err);
+                                        }
+                                    });
+                                    res.status(200).json(tx);
+                                });
+                            });
+                        }
+                    });
                 });
             }
         });
-
-        User.findOne({"email": tx.recipient}, (err, recipient) => {
-            if (err) {
-                res.status(500).json(err);
-            }
-
-            if (recipient) {
-                recipient.transaction_id = null;
-                recipient.type_of_party = null;
-                recipient.save((err, modifiedUser) => {
-                });
-            }
-        });
-
-        var registeredTransactionForSender = new RegisteredTransaction();
-        registeredTransactionForSender.email = tx.sender;
-        registeredTransactionForSender.path = tx.path;
-        registeredTransactionForSender.save((err, registeredTransactionForSender) => {
-            if (err) {
-                res.status(500).json(err);
-            }
-        });
-
-        var registeredTransactionForRecipient = new RegisteredTransaction();
-        registeredTransactionForRecipient.email = tx.recipient;
-        registeredTransactionForRecipient.path = tx.path;
-        registeredTransactionForRecipient.save((err, registeredTransactionForRecipient) => {
-            if (err) {
-                res.status(500).json(err);
-            }
-        });
-        res.status(200).json(tx);
     });
 }
 

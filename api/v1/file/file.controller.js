@@ -31,11 +31,6 @@ function uploadFile(req, res) {
         });
 }
 
-function getFile(req, res) {
-    res.send(req.body.originalname);
-}
-
 module.exports = {
-    uploadFile,
-    getFile
+    uploadFile
 }
