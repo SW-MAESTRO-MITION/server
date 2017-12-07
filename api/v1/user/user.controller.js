@@ -4,9 +4,9 @@ var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 var User = require('../../../models/user');
 
 var createEOA = function () {
-  var address = web3.personal.newAccount("password");
-  web3.personal.unlockAccount(address, "password");
-  return address;
+    var address = web3.personal.newAccount("password");
+    web3.personal.unlockAccount(address, "password");
+    return address;
 }
 
 function createUser(req, res) {
@@ -36,6 +36,24 @@ function getUser(req, res) {
             res.status(200).json("No user found");
         }
     });
+};
+
+function login(req, res) {
+    console.log(req.body.email + ", " + req.body.password);
+    User.findOne({
+        "email": req.body.email,
+        "password": req.body.password
+    }, (err, user) => {
+        if (err) {
+            res.status(500).json(err);
+        }
+        console.log(user);
+        if (user) {
+            res.status(200).json(user);
+        } else {
+            res.status(200).json("No user found");
+        }
+    });
 }
 
 function modifyUser(req, res) {
@@ -49,7 +67,7 @@ function modifyUser(req, res) {
 
             user.name = req.body.name || user.name;
             user.email = req.body.email || user.email;
-            user.password = req.body.password  || user.password ;
+            user.password = req.body.password || user.password;
 
             // Save the updated document back to the database
             user.save((err, modifiedUser) => {
@@ -77,8 +95,9 @@ function deleteUser(req, res) {
 }
 
 module.exports = {
-  createUser,
-  getUser,
-  modifyUser,
-  deleteUser
+    createUser,
+    login,
+    getUser,
+    modifyUser,
+    deleteUser
 }

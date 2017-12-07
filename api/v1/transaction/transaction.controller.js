@@ -5,18 +5,22 @@
 var Transaction = require('../../../models/transaction');
 var RegisteredTransaction = require('../../../models/registeredTransaction');
 var User = require('../../../models/user');
+var crypto = require('crypto');
+var fs = require('fs');
 
 function createTransaction(req, res) {
-    // 파일 생성 코드가 필요함
     var transaction = new Transaction();
+
+    transaction.sender_name = req.body.sender_name;
     transaction.sender = req.body.sender;
     transaction.recipient = req.body.recipient;
-    transaction.path = "1";
-    // transaction.path = 파일 생성 코드 이후의 값으로 받는다.;
-    transaction.is_registered = false;
+    transaction.path = req.body.absolute_path;
+    transaction.file_name = req.body.file_name;
+    transaction.transaction_date = req.body.date;
 
     transaction.save((err, createdTransaction) => {
         if (err) {
+            console.log(err.message);
             res.status(500).json(err);
         }
 
@@ -30,22 +34,19 @@ function createTransaction(req, res) {
                 sender.save((err, modifiedUser) => {
                 });
             }
+            User.findOne({"email": req.body.recipient}, (err, recipient) => {
+                if (err) {
+                    res.status(500).json(err);
+                }
+                if (recipient) {
+                    recipient.transaction_id = createdTransaction._id;
+                    recipient.type_of_party = "recipient";
+                    recipient.save((err, modifiedUser) => {
+                    });
+                }
+                res.status(200).json(createdTransaction);
+            });
         });
-
-        User.findOne({"email": req.body.recipient}, (err, recipient) => {
-            if (err) {
-                res.status(500).json(err);
-            }
-
-            if (recipient) {
-                recipient.transaction_id = createdTransaction._id;
-                recipient.type_of_party = "recipient";
-                recipient.save((err, modifiedUser) => {
-                });
-            }
-        });
-
-        res.status(200).json(createdTransaction);
     });
 }
 
@@ -135,7 +136,7 @@ function acceptTransaction(req, res) {
                 res.status(500).json(err);
             }
         });
-        res.status(200).json();
+        res.status(200).json(tx);
     });
 }
 
