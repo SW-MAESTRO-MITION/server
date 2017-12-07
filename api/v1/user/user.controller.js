@@ -17,6 +17,7 @@ function createUser(req, res) {
 
     user.save((err, createdUser) => {
         if (err) {
+            console.log(err.message);
             res.status(500).json(err);
         }
         res.status(200).json(createdUser);
