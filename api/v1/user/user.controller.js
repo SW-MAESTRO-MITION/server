@@ -3,12 +3,6 @@ var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
 var User = require('../../../models/user');
 
-var createEOA = function () {
-    var address = web3.personal.newAccount("password");
-    web3.personal.unlockAccount(address, "password");
-    return address;
-}
-
 function createUser(req, res) {
     var user = new User();
     user.name = req.body.name;
@@ -17,8 +11,8 @@ function createUser(req, res) {
 
     user.save((err, createdUser) => {
         if (err) {
-            console.log(err.message);
             res.status(500).json(err);
+            console.log(err.message);
         }
         res.status(200).json(createdUser);
     });
@@ -39,7 +33,6 @@ function getUser(req, res) {
 };
 
 function login(req, res) {
-    console.log(req.body.email + ", " + req.body.password);
     User.findOne({
         "email": req.body.email,
         "password": req.body.password
@@ -47,7 +40,6 @@ function login(req, res) {
         if (err) {
             res.status(500).json(err);
         }
-        console.log(user);
         if (user) {
             res.status(200).json(user);
         } else {

@@ -22,6 +22,6 @@
   },
   "is_checked_registered_contract": {
     "type": "boolean",
-    "default": false
+    "default": true
   }
 }

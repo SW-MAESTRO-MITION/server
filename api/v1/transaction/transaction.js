@@ -10,5 +10,6 @@ router.post('/', transaction.createTransaction);
 router.get('/sender/:id', transaction.getSenderTransaction);
 router.get('/recipient/:id', transaction.getRecipientTransaction);
 router.post('/accept/:id', transaction.acceptTransaction);
+router.get('/contract/user/:email', transaction.getRegisteredContract);
 
 module.exports = router;

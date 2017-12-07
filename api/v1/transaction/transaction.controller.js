@@ -142,9 +142,20 @@ function acceptTransaction(req, res) {
     });
 }
 
+function getRegisteredContract(req, res) {
+    console.log(req.params.email);
+    RegisteredTransaction.find({'email': req.params.email}, function (err, contract) {
+        if (err) {
+            res.status(500).json(err);
+        }
+        return res.status(200).json(contract);
+    });
+};
+
 module.exports = {
     createTransaction,
     getSenderTransaction,
     getRecipientTransaction,
-    acceptTransaction
+    acceptTransaction,
+    getRegisteredContract
 }
