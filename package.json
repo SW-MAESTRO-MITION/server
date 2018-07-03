@@ -1,22 +1,20 @@
 {
-  "name": "realty",
+  "name": "MITION-Server",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "bcrypt": "^2.0.1",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
     "crypto": "^1.0.1",
     "debug": "~2.6.9",
     "ethereumjs-testrpc": "^6.0.3",
-    "express": "~4.15.5",
+    "express": "^4.16.3",
     "express-fileupload": "^0.3.0",
     "fs": "0.0.1-security",
-    "ipfs": "^0.26.0",
-    "ipfs-repo": "^0.18.3",
-    "jade": "~1.11.0",
     "js-sha256": "^0.8.0",
     "mongoose": "^4.13.5",
     "mongoose-paginate": "^5.0.3",
