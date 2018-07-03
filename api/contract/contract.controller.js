@@ -2,7 +2,7 @@ var Web3 = require("web3");
 var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
 var contractAddress = "0x830c75568f71cebdc00ce7f9c3b54508877f54cf";
-var contractInfo = require("../../../../smart_contract/build/contracts/Contract.json");
+var contractInfo = require("../../../smart_contract/build/contracts/Contract.json");
 var contractABI = contractInfo["abi"];
 
 var contractObject = web3.eth.contract(contractABI);

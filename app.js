@@ -4,11 +4,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var user = require('./api/v1/user/user');
-var contract = require('./api/v1/contract/contract');
-var file = require('./api/v1/file/file');
-var mailing = require('./api/v1/mailing/mailing');
-var transaction = require('./api/v1/transaction/transaction');
+var user = require('./api/user/user');
+var contract = require('./api/contract/contract');
+var file = require('./api/file/file');
+var mailing = require('./api/mailing/mailing');
+var transaction = require('./api/transaction/transaction');
 
 var app = express();
 var mongoose = require('mongoose');

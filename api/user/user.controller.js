@@ -1,7 +1,7 @@
 var Web3 = require("web3");
 var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
-var User = require('../../../models/user');
+var User = require('../../models/user');
 
 function createUser(req, res) {
   var user = new User();

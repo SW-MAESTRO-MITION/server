@@ -2,9 +2,9 @@
  * Created by dn2757 on 2017. 12. 6..
  */
 
-var Transaction = require('../../../models/transaction');
-var RegisteredTransaction = require('../../../models/registeredTransaction');
-var User = require('../../../models/user');
+var Transaction = require('../../models/transaction');
+var RegisteredTransaction = require('../../models/registeredTransaction');
+var User = require('../../models/user');
 var crypto = require('crypto');
 var fs = require('fs');
 
