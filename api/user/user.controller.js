@@ -1,15 +1,12 @@
-var Web3 = require("web3");
-var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+const User = require('../../models/user');
 
-var User = require('../../models/user');
-
-function createUser(req, res) {
-  var user = new User();
+const createUser = (req, res) => {
+  const user = new User();
   user.name = req.body.name;
   user.email = req.body.email;
   user.password = req.body.password;
 
-  user.save(function(err, createdUser) {
+  user.save((err, createdUser) => {
     if (err) {
       res.status(500).json(err);
       console.log(err.message);
@@ -20,8 +17,8 @@ function createUser(req, res) {
   });
 }
 
-function getUser(req, res) {
-  User.findOne({"_id": req.params.id}, function(err, user) {
+const getUser = (req, res) => {
+  User.findOne({"_id": req.params.id}, (err, user) => {
     if (err) {
       res.status(500).json(err);
     }
@@ -36,11 +33,11 @@ function getUser(req, res) {
   });
 };
 
-function login(req, res) {
+const login = (req, res) => {
   User.findOne({
     "email": req.body.email,
     "password": req.body.password
-  }, function(err, user) {
+  }, (err, user) => {
     if (err) {
       res.status(500).json(err);
     }
@@ -55,8 +52,8 @@ function login(req, res) {
   });
 }
 
-function modifyUser(req, res) {
-  User.findById(req.params.id, function(err, user) {
+const modifyUser = (req, res) => {
+  User.findById(req.params.id, (err, user) => {
     if (err) {
       res.status(500).send(err);
     }
@@ -66,7 +63,7 @@ function modifyUser(req, res) {
       user.password = req.body.password || user.password;
       user.is_checked_registered_contract = req.body.is_checked_registered_contract || user.is_checked_registered_contract;
 
-      user.save(function(err, modifiedUser) {
+      user.save((err, modifiedUser) => {
       if (err) {
         res.status(500).send(err)
       }
@@ -78,7 +75,7 @@ function modifyUser(req, res) {
   });
 }
 
-function deleteUser(req, res) {
+const deleteUser = (req, res) => {
   User.findByIdAndRemove(req.params.id, (err, user) => {
     if (err) {
     res.status(500).send(err)
